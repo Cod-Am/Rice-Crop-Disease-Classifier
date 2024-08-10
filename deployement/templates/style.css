@@ -1,0 +1,35 @@
+/* style.css */
+.main_body {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    height: 100vh;            /* Full viewport height */
+    /* background-color: red; */
+    margin: 0;                /* Remove default margin */
+}
+
+.form_container {
+    /* display: flex; */
+    align-items: center;
+    justify-items:baseline;
+    height: 300px;
+    width:max-content;
+    background-color: #333;   /* Dark background for the box */
+    color: white;             /* Text color */
+    padding: 50px;            /* Padding around the form */
+    border-radius: 10px;      /* Rounded corners */
+    box-shadow: 0 0 10px rgba(40, 40, 40, 40); /* Shadow effect */
+    text-align: center;       /* Center align text inside the box */
+}
+.form{
+    flex: content;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    /* height: 100px; */
+}
+
+.title {
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
