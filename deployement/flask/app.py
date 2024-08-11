@@ -1,5 +1,5 @@
 import numpy as np
-import pickle
+import joblib
 from werkzeug.utils import secure_filename
 import os
 from skimage.feature import hog
@@ -8,20 +8,19 @@ from skimage.io import imread
 from flask import render_template, Flask, request, flash
 
 app = Flask(__name__, template_folder='../templates')
-UPLOAD_FOLDER = 'D:/IDEs/anaconda/envs/rice-disease/data/deployement/uploads'
+UPLOAD_FOLDER = r'D:\IDEs\anaconda\envs\rice-disease\\data\Rice-Crop-Disease-Classifier\Rice_Diseases\uploads'
+model_path = r'D:\IDEs\anaconda\envs\rice-disease\models\model_100.pkl'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.static_folder = 'static'
 def predict_image(image_path):
     greyscale_image = imread(image_path, as_gray=True, plugin='pil')
     resized_greyscale_image = resize(greyscale_image, (200, 200))
-    hogify, hog_img = hog(
-        resized_greyscale_image, orientations=8,
-        pixels_per_cell=(4, 4),
-        cells_per_block=(8, 8),
-        visualize=True
-    )
-    model_path = r'D:/IDEs/anaconda/envs/rice-disease/model/model_100.pkl'
-    model = pickle.load(open(model_path, 'rb'))
+    hogify= hog(resized_greyscale_image, 
+                orientations=8,
+                pixels_per_cell=(8, 8),
+                cells_per_block=(16,16)
+                )
+    model = joblib.load(open(model_path, 'rb'))
     prediction = model.predict(hogify.reshape(1, -1))  # Ensure input shape matches model's expectation
     return prediction
 
@@ -51,3 +50,19 @@ def result():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# debugging functions
+
+@app.route('/versions')
+def versions():
+    import numpy
+    import joblib
+    import sys
+    return f"Python version: {sys.version}<br>" \
+           f"Numpy version: {numpy.__version__}<br>" \
+           f"Joblib version: {joblib.__version__}"
+
+@app.route('/python-path')
+def python_path():
+    import sys
+    return f"Python executable path: {sys.executable}"
