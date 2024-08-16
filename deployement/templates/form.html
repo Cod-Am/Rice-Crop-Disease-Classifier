@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheet.css')}}">
+</head>
+<body>
+    <div>
+        <div>
+            <form action="/result" method="post" enctype="multipart/form-data">
+                <label for="img">Upload your image for checking and determinging the type of disease</label><br>
+                <input type="file" id="img" name="img" accept="png ">
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+</body>
