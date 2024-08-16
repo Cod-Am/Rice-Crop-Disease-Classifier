@@ -18,7 +18,7 @@ def fetch(image):
 # preprocessing the image
 def preprocess(image):
     image = resize(image, (200,200))
-    hogify = hog(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(16.16), visualize=False, feature_vector=True)
+    hogify = hog(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(16,16), visualize=False, feature_vector=True)
     return hogify
 
 # predicting the model
@@ -51,7 +51,9 @@ def result():
                 saved_image = fetch(image)
                 hogify = preprocess(saved_image)
                 prediction = predict(hogify)
-
+                # resetting the params
+                saved_image=None
+                hogify = None
                 # Define the mapping of predictions to descriptions
                 descriptions = {
                     1: 'Leaf is diseased with Rice Bacterial Blight',
@@ -60,7 +62,6 @@ def result():
                     4: 'Leaf is diseased with Rice Leaf Smut',
                     5: 'Leaf is diseased with Rice Tungro'
                 }
-
                 # Convert prediction to description
                 converted_prediction = descriptions.get(prediction[0], 'Unknown Disease')
 
